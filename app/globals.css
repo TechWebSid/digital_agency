@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --accent-purple: #818cf8;
+}
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: #080b14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 999px;
+}
+
+html {
+  scrollbar-color: #1e293b #080b14; /* Firefox */
+}
+/* Single background source of truth */
+html, body {
+
+  color: white;
+  margin: 0;
+  padding: 0;
+    overflow-x: hidden !important;
+}
+
+body {
+  cursor: none;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+
