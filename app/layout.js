@@ -6,6 +6,7 @@ import Footer from "@/components/Footer"
 import SmoothScroll from "@/components/SmoothScroll"
 import Preloader from "@/components/PreLoader"
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "TechWebSid",
   description: "Engineering Digital Presence",
+  icons: {
+    icon: "/favicon.png",
+  },
 }
 
 export default function RootLayout({ children }) {
