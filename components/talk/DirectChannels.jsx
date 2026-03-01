@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 
 const contacts = [
-  { label: "Neural Link", value: "hello@techwebsid.com", type: "Email" },
-  { label: "Secure Line", value: "+91 98765 43210", type: "WhatsApp" },
-  { label: "Time Sync", value: "cal.com/techwebsid", type: "Schedule" },
+  { label: "Neural Link", value: "techwebsid@gmail.com", type: "Email" },
+  { label: "Secure Line", value: "+91 8957035412", type: "WhatsApp" },
+  { label: "Time Sync", value: "sid-port.vercel.app", type: "Schedule" },
 ]
 
 export default function DirectChannels() {
