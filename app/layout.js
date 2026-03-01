@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/SmoothScroll"
 import Preloader from "@/components/PreLoader"
 
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
           text-white
         `}
       >
+    
         <SmoothScroll>
           <div className="relative min-h-screen bg-gradient-to-b from-[#0d0f1f] via-[#0b0f1a] to-[#090b14] overflow-hidden">
 

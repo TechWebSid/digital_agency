@@ -3,117 +3,131 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 
-const brandName = "TECHWEBSID"
+const brand = "TECHWEBSID"
 
 export default function Preloader() {
-  const [count, setCount] = useState(0)
-  const [show, setShow] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [visible, setVisible] = useState(false)
+  const [complete, setComplete] = useState(false)
 
   useEffect(() => {
-    const hasVisited = sessionStorage.getItem("tws_preloader_seen")
+    const seen = sessionStorage.getItem("tws_loader_v2")
+    if (seen) return
 
-    if (hasVisited) return
+    setVisible(true)
 
-    setShow(true)
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval)
+          setTimeout(() => {
+            setComplete(true)
+            sessionStorage.setItem("tws_loader_v2", "true")
+          }, 800)
+          return 100
+        }
+        return prev + Math.random() * 8
+      })
+    }, 60)
 
-    const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        setCount((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval)
-            setTimeout(() => {
-              setIsComplete(true)
-              sessionStorage.setItem("tws_preloader_seen", "true")
-            }, 800)
-            return 100
-          }
-          return prev + 1
-        })
-      }, 20)
-
-      return () => clearInterval(interval)
-    }, 500)
-
-    return () => clearTimeout(timeout)
+    return () => clearInterval(interval)
   }, [])
 
-  if (!show) return null
+  if (!visible) return null
 
   return (
     <AnimatePresence>
-      {!isComplete && (
+      {!complete && (
         <motion.div
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
+            scale: 1.05,
+            transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#080b14] overflow-hidden"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#05070c] overflow-hidden"
         >
-          {/* BACKGROUND TEXTURE */}
-          <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
+          {/* GRID BACKGROUND */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
 
-          {/* BRAND NAME REVEAL */}
-          <div className="relative flex overflow-hidden mb-4">
-            {brandName.split("").map((char, i) => (
-              <motion.span
-                key={i}
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0.16, 1, 0.3, 1],
-                  delay: i * 0.05,
-                }}
-                className="text-4xl sm:text-7xl font-bold tracking-tighter text-white inline-block"
-              >
-                {char}
-              </motion.span>
-            ))}
+          {/* VIGNETTE */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,#05070c_85%)]" />
 
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-              className="absolute bottom-0 left-0 w-full h-[2px] bg-indigo-500 origin-left"
-            />
-          </div>
+          {/* CONTENT */}
+          <div className="relative flex flex-col items-center">
 
-          {/* STATUS TEXT */}
-          <div className="flex flex-col items-center mt-8">
+            {/* BRAND */}
+            <div className="overflow-hidden flex">
+              {brand.split("").map((char, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ y: "120%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{
+                    delay: i * 0.06,
+                    duration: 1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="text-[clamp(2.5rem,6vw,5rem)] font-light tracking-tighter"
+                  style={{
+                    color: i > 3 ? "#818cf8" : "white",
+                  }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* SUBTITLE */}
             <motion.p
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-[10px] uppercase tracking-[0.6em] text-indigo-400/60 font-mono mb-2"
+              animate={{ opacity: 0.6 }}
+              transition={{ delay: 0.8 }}
+              className="mt-6 text-[10px] tracking-[0.6em] uppercase font-mono text-indigo-400"
             >
-              Initialising Digital Identity
+              Initialising Digital Architecture
             </motion.p>
 
-            <div className="flex items-center gap-4">
-              <span className="text-xl font-light text-white/90 tabular-nums">
-                {count.toString().padStart(3, "0")}
-              </span>
+            {/* PROGRESS */}
+            <div className="mt-10 w-64 h-[2px] bg-white/10 relative overflow-hidden">
+              <motion.div
+                style={{ width: `${progress}%` }}
+                className="absolute left-0 top-0 h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+              />
 
-              <div className="w-32 h-[1px] bg-white/10 relative overflow-hidden">
-                <motion.div
-                  style={{ width: `${count}%` }}
-                  className="absolute left-0 top-0 h-full bg-indigo-500"
-                />
-              </div>
+              {/* SCAN LINE */}
+              <motion.div
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                className="absolute top-0 left-0 h-full w-20 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+              />
             </div>
-          </div>
 
-          {/* AMBIENT GLOW */}
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.1, 0.2, 0.1],
-            }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="absolute w-[500px] h-[500px] bg-indigo-600/20 blur-[120px] rounded-full z-[-1]"
-          />
+            {/* COUNTER */}
+            <motion.span
+              className="mt-6 text-sm text-white/50 tabular-nums"
+              animate={{ opacity: 1 }}
+            >
+              {Math.min(Math.floor(progress), 100).toString().padStart(3, "0")}
+            </motion.span>
+
+            {/* MICRO HUD */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.3 }}
+              transition={{ delay: 1.2 }}
+              className="absolute bottom-10 text-[9px] font-mono tracking-[0.5em] uppercase text-white/40"
+            >
+              Core_System_Online · v3.2.0
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
