@@ -29,7 +29,7 @@ const projects = [
     title: "Video Chat",
     subtitle: "Real-time Communication",
     tech: "WebRTC · Socket · Fullstack",
-    image: "https://images.unsplash.com/photo-1526378722370-3c6d5a73c16b?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1587377838865-38ab492fdad3?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dmlkZW8lMjBjYWxsJTIwYXBwfGVufDB8fDB8fHww",
     link: "https://vision-talk-mo48.vercel.app/",
   },
 ]
