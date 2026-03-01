@@ -45,7 +45,11 @@ export default function Preloader() {
             scale: 1.05,
             transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
           }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#05070c] overflow-hidden"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#05070c] overflow-hidden px-6"
+          style={{
+            paddingTop: "env(safe-area-inset-top)",
+            paddingBottom: "env(safe-area-inset-bottom)",
+          }}
         >
           {/* GRID BACKGROUND */}
           <div
@@ -53,7 +57,7 @@ export default function Preloader() {
             style={{
               backgroundImage:
                 "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
+              backgroundSize: "clamp(40px, 6vw, 60px) clamp(40px, 6vw, 60px)",
             }}
           />
 
@@ -61,10 +65,10 @@ export default function Preloader() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,#05070c_85%)]" />
 
           {/* CONTENT */}
-          <div className="relative flex flex-col items-center">
+          <div className="relative flex flex-col items-center text-center w-full max-w-md sm:max-w-lg">
 
             {/* BRAND */}
-            <div className="overflow-hidden flex">
+            <div className="overflow-hidden flex flex-wrap justify-center">
               {brand.split("").map((char, i) => (
                 <motion.span
                   key={i}
@@ -75,7 +79,7 @@ export default function Preloader() {
                     duration: 1,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="text-[clamp(2.5rem,6vw,5rem)] font-light tracking-tighter"
+                  className="text-[clamp(2rem,8vw,5rem)] font-light tracking-tighter"
                   style={{
                     color: i > 3 ? "#818cf8" : "white",
                   }}
@@ -90,13 +94,13 @@ export default function Preloader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.6 }}
               transition={{ delay: 0.8 }}
-              className="mt-6 text-[10px] tracking-[0.6em] uppercase font-mono text-indigo-400"
+              className="mt-5 sm:mt-6 text-[9px] sm:text-[10px] tracking-[0.6em] uppercase font-mono text-indigo-400"
             >
               Initialising Digital Architecture
             </motion.p>
 
             {/* PROGRESS */}
-            <div className="mt-10 w-64 h-[2px] bg-white/10 relative overflow-hidden">
+            <div className="mt-8 sm:mt-10 w-full max-w-[260px] sm:max-w-[320px] h-[2px] bg-white/10 relative overflow-hidden">
               <motion.div
                 style={{ width: `${progress}%` }}
                 className="absolute left-0 top-0 h-full bg-gradient-to-r from-indigo-500 to-purple-500"
@@ -106,13 +110,13 @@ export default function Preloader() {
               <motion.div
                 animate={{ x: ["-100%", "100%"] }}
                 transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                className="absolute top-0 left-0 h-full w-20 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                className="absolute top-0 left-0 h-full w-16 sm:w-20 bg-gradient-to-r from-transparent via-white/30 to-transparent"
               />
             </div>
 
             {/* COUNTER */}
             <motion.span
-              className="mt-6 text-sm text-white/50 tabular-nums"
+              className="mt-5 sm:mt-6 text-sm text-white/50 tabular-nums"
               animate={{ opacity: 1 }}
             >
               {Math.min(Math.floor(progress), 100).toString().padStart(3, "0")}
@@ -123,7 +127,7 @@ export default function Preloader() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.3 }}
               transition={{ delay: 1.2 }}
-              className="absolute bottom-10 text-[9px] font-mono tracking-[0.5em] uppercase text-white/40"
+              className="absolute bottom-6 sm:bottom-10 text-[8px] sm:text-[9px] font-mono tracking-[0.5em] uppercase text-white/40"
             >
               Core_System_Online · v3.2.0
             </motion.div>

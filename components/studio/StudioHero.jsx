@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion"
-import { useRef, useMemo } from "react"
+import { useRef } from "react"
 
 export default function StudioHero() {
   const ref = useRef(null)
@@ -12,56 +12,55 @@ export default function StudioHero() {
     offset: ["start start", "end start"]
   })
 
-  // PERFORMANCE FIX: Using 'will-change' and limiting the transform range
-  // We use useMemo to prevent unnecessary re-renders of the transform logic
-  const yText = useTransform(scrollYProgress, [0, 1], [0, 200])
-  const yGhost = useTransform(scrollYProgress, [0, 1], [0, 100])
+  const yText = useTransform(scrollYProgress, [0, 1], [0, 180])
+  const yGhost = useTransform(scrollYProgress, [0, 1], [0, 80])
   const opacityFade = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
-  // Optimize the text lines to avoid mapping inside the return if not needed
   const lines = ["A Digital", "Engineering", "Studio"]
 
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center px-6 lg:px-24 overflow-hidden bg-[#07090f]"
+      className="relative min-h-[100svh] flex items-center px-6 sm:px-10 lg:px-24 overflow-hidden bg-[#07090f]"
     >
-      {/* ================= OPTIMIZED BACKGROUND ================= */}
+      {/* ================= BACKGROUND ================= */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
-        {/* FIX: Large blurs are GPU killers. 
-          We use a lower opacity and 'backface-visibility' to force GPU rendering.
-        */}
+
+        {/* Optimized glow (reduced GPU stress) */}
         <motion.div
-          style={{ y: yGhost, willChange: "transform" }}
-          className="absolute -top-20 -left-20 w-[50vw] h-[50vw] bg-indigo-600/10 blur-[120px] rounded-full"
+          style={{ y: yGhost }}
+          className="absolute -top-10 -left-10 w-[60vw] h-[60vw] bg-indigo-600/10 blur-[90px] rounded-full"
         />
-        
-        {/* Static noise overlay for texture without extra layers */}
+
+        {/* Noise */}
         <div className="absolute inset-0 opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
-        
+
+        {/* Vignette */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#07090f_90%)]" />
       </div>
 
       {/* ================= GHOST WORD ================= */}
       <motion.div
-        style={{ 
-          y: yGhost, 
-          willChange: "transform",
-          opacity: opacityFade 
-        }}
-        className="absolute top-1/2 left-4 -translate-y-1/2 text-[20vw] font-black tracking-tighter text-white/[0.015] pointer-events-none select-none uppercase"
+        style={{ y: yGhost, opacity: opacityFade }}
+        className="absolute 
+                   left-1/2 -translate-x-1/2 
+                   lg:left-4 lg:translate-x-0 
+                   top-1/2 -translate-y-1/2 
+                   text-[28vw] sm:text-[22vw] lg:text-[20vw] 
+                   font-black tracking-tighter 
+                   text-white/[0.015] 
+                   pointer-events-none select-none uppercase whitespace-nowrap"
       >
         TWS_SYS
       </motion.div>
 
       {/* ================= MAIN CONTENT ================= */}
       <motion.div
-        style={{ 
-          y: shouldReduceMotion ? 0 : yText, 
-          opacity: opacityFade,
-          willChange: "transform, opacity" 
+        style={{
+          y: shouldReduceMotion ? 0 : yText,
+          opacity: opacityFade
         }}
-        className="relative z-10 w-full max-w-7xl mx-auto"
+        className="relative z-10 w-full max-w-7xl mx-auto text-center lg:text-left"
       >
         {lines.map((line, i) => (
           <div key={i} className="overflow-hidden mb-1">
@@ -71,152 +70,141 @@ export default function StudioHero() {
               transition={{
                 duration: 1,
                 delay: i * 0.1,
-                ease: [0.22, 1, 0.36, 1] // Quicker, smoother ease
+                ease: [0.22, 1, 0.36, 1]
               }}
-              className={`text-[clamp(3.5rem,10vw,8.5rem)] font-light leading-[0.9] tracking-tighter
-                ${line === "Studio" ? "italic font-serif text-indigo-400" : "text-white"}
-              `}
+              className={`text-[clamp(2.8rem,10vw,8.5rem)] font-light leading-[0.9] tracking-tighter
+                ${line === "Studio"
+                  ? "italic font-serif text-indigo-400"
+                  : "text-white"
+                }`}
             >
               {line}
             </motion.h1>
           </div>
         ))}
-        {/* ================= MOBILE SYSTEM PANEL ================= */}
-<div className="mt-20 lg:hidden relative w-full flex justify-center">
 
-  <div className="relative w-[85%] max-w-[380px] h-[300px]">
+        {/* ================= MOBILE PANEL ================= */}
+        <div className="mt-16 sm:mt-20 lg:hidden relative w-full flex justify-center">
+          <div className="relative w-[85%] max-w-[380px] h-[260px] sm:h-[300px]">
+            <div className="absolute inset-0 bg-indigo-600/20 blur-[50px] rounded-3xl" />
 
-    {/* Glow behind */}
-    <div className="absolute inset-0 bg-indigo-600/20 blur-[60px] rounded-3xl" />
+            <div className="relative h-full rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden">
 
-    {/* Glass Card */}
-    <div className="relative h-full rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden">
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:24px_24px]" />
 
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:24px_24px]" />
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute w-full h-16 bg-gradient-to-b from-transparent via-indigo-500/30 to-transparent animate-scan" />
+              </div>
 
-      {/* Animated scan line */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-full h-20 bg-gradient-to-b from-transparent via-indigo-500/30 to-transparent animate-[scan_5s_linear_infinite]" />
-      </div>
+              <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between h-full">
+                <div className="text-[9px] sm:text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase">
+                  System Core
+                </div>
 
-      {/* Content */}
-      <div className="relative z-10 p-8 flex flex-col justify-between h-full">
+                <div>
+                  <div className="text-2xl sm:text-3xl font-light text-indigo-400 tracking-tight">
+                    TWS
+                  </div>
+                  <div className="text-xs sm:text-sm text-white/40 mt-2">
+                    Engineered Motion Architecture
+                  </div>
+                </div>
 
-        <div className="text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase">
-          System Core
-        </div>
-
-        <div>
-          <div className="text-3xl font-light text-indigo-400 tracking-tight">
-            TWS
+                <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-mono text-white/30">
+                  <span>Latency: 12ms</span>
+                  <span className="text-indigo-400 animate-pulse">Online</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="text-sm text-white/40 mt-2">
-            Engineered Motion Architecture
-          </div>
         </div>
 
-        <div className="flex items-center justify-between text-[10px] font-mono text-white/30">
-          <span>Latency: 12ms</span>
-          <span className="text-indigo-400 animate-pulse">Online</span>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-</div>
-
-        {/* Subtext with simplified animation */}
+        {/* Subtext */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="mt-12 flex flex-col md:flex-row md:items-center gap-8"
+          className="mt-12 flex flex-col md:flex-row md:items-center gap-6 md:gap-8 justify-center lg:justify-start"
         >
           <div className="w-12 h-[1px] bg-indigo-500/50 hidden md:block" />
-          <p className="max-w-xl text-white/40 text-lg md:text-xl font-light leading-relaxed tracking-tight">
-            Engineering digital architectures that prioritize 
-            <span className="text-white/60"> raw speed </span> 
+          <p className="max-w-xl text-white/40 text-base sm:text-lg md:text-xl font-light leading-relaxed tracking-tight">
+            Engineering digital architectures that prioritize
+            <span className="text-white/60"> raw speed </span>
             and cinematic movement over generic templates.
           </p>
         </motion.div>
       </motion.div>
 
-      {/* ================= HUD DETAILS (BETTER THAN GHOST TEXT) ================= */}
-      <div className="absolute bottom-10 left-6 lg:left-24 flex items-center gap-4 text-[10px] font-mono tracking-[0.3em] text-white/20 uppercase">
-        <span className="text-indigo-500/50">●</span> 
-        <span>Core_System_Online</span>
-        <span className="ml-4 opacity-50">v3.2.0</span>
+      {/* ================= DESKTOP WOW PANEL ================= */}
+      <div className="absolute right-10 lg:right-24 top-1/2 -translate-y-1/2 hidden lg:block">
+        <div
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect()
+            const x = e.clientX - rect.left
+            const y = e.clientY - rect.top
+            const centerX = rect.width / 2
+            const centerY = rect.height / 2
+
+            const rotateX = ((y - centerY) / centerY) * -6
+            const rotateY = ((x - centerX) / centerX) * 6
+
+            e.currentTarget.style.transform =
+              `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform =
+              "perspective(1000px) rotateX(0deg) rotateY(0deg)"
+          }}
+          className="relative w-[320px] xl:w-[340px] h-[400px] transition-transform duration-300 ease-out"
+        >
+          <div className="absolute inset-0 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:30px_30px]" />
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute w-full h-20 bg-gradient-to-b from-transparent via-indigo-500/20 to-transparent animate-scan" />
+            </div>
+
+            <div className="relative z-10 p-10 flex flex-col justify-between h-full">
+              <div className="text-xs font-mono tracking-[0.4em] text-white/30 uppercase">
+                System Core
+              </div>
+
+              <div>
+                <div className="text-4xl font-light text-indigo-400 tracking-tight">
+                  TWS
+                </div>
+                <div className="text-sm text-white/40 mt-2">
+                  Engineered Motion Architecture
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px] font-mono text-white/30">
+                <span>Latency: 12ms</span>
+                <span className="text-indigo-400">Online</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* ================= OPTIMIZED SCROLL INDICATOR ================= */}
-      <div className="absolute bottom-10 right-6 lg:right-24 h-24 w-px bg-white/5 overflow-hidden">
+      {/* ================= SCROLL INDICATOR ================= */}
+      <div className="hidden sm:block absolute bottom-8 right-6 lg:right-24 h-20 lg:h-24 w-px bg-white/5 overflow-hidden">
         <motion.div
           animate={{ y: ["-100%", "100%"] }}
           transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
           className="w-full h-1/2 bg-gradient-to-b from-transparent via-indigo-500/50 to-transparent"
         />
       </div>
-      {/* ================= INTERACTIVE SYSTEM GRID (WOW ELEMENT) ================= */}
-<div className="absolute right-10 lg:right-24 top-1/2 -translate-y-1/2 hidden lg:block">
-  <div
-    onMouseMove={(e) => {
-      const rect = e.currentTarget.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-      const centerX = rect.width / 2
-      const centerY = rect.height / 2
 
-      const rotateX = ((y - centerY) / centerY) * -8
-      const rotateY = ((x - centerX) / centerX) * 8
-
-      e.currentTarget.style.transform =
-        `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.transform =
-        "perspective(1000px) rotateX(0deg) rotateY(0deg)"
-    }}
-    className="relative w-[340px] h-[420px] transition-transform duration-300 ease-out"
-  >
-
-    {/* Glass Panel */}
-    <div className="absolute inset-0 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden">
-
-      {/* Animated grid lines */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:30px_30px]" />
-
-      {/* Moving scan line */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-full h-24 bg-gradient-to-b from-transparent via-indigo-500/20 to-transparent animate-[scan_4s_linear_infinite]" />
-      </div>
-
-      {/* Inner content */}
-      <div className="relative z-10 p-10 flex flex-col justify-between h-full">
-
-        <div className="text-xs font-mono tracking-[0.4em] text-white/30 uppercase">
-          System Core
-        </div>
-
-        <div>
-          <div className="text-4xl font-light text-indigo-400 tracking-tight">
-            TWS
-          </div>
-          <div className="text-sm text-white/40 mt-2">
-            Engineered Motion Architecture
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between text-[11px] font-mono text-white/30">
-          <span>Latency: 12ms</span>
-          <span className="text-indigo-400">Online</span>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
+      {/* ================= GLOBAL ANIMATION ================= */}
+      <style jsx global>{`
+        @keyframes scan {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(200%); }
+        }
+        .animate-scan {
+          animation: scan 4s linear infinite;
+        }
+      `}</style>
     </section>
   )
 }
