@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion"
 import Hamburger from "hamburger-react"
 
 const menuItems = [
-  { title: "Works", href: "#", num: "01" },
-  { title: "Expertise", href: "#", num: "02" },
-  { title: "Studio", href: "#", num: "03" },
-  { title: "Talk", href: "#", num: "04" },
+  { title: "Works", href: "/works", num: "01" },
+  { title: "Expertise", href: "expertise", num: "02" },
+  { title: "Studio", href: "/studio", num: "03" },
+  { title: "Talk", href: "/talk", num: "04" },
 ]
 
 export default function Navbar() {
