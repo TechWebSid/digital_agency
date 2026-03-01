@@ -95,7 +95,7 @@ function ProjectPanel({ project, index }) {
             {project.title.split(" ").map((word, i) => (
               <span
                 key={i}
-                className={i === 1 ? "italic font-serif text-indigo-400" : ""}
+                className={i === 1 ? "italic font-serif text-indigo-500" : ""}
               >
                 {word}{" "}
               </span>
