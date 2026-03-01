@@ -12,9 +12,9 @@ const socialLinks = [
 
 const navLinks = [
   { title: "Home", href: "/" },
-  { title: "Works", href: "#" },
-  { title: "Process", href: "#" },
-  { title: "Studio", href: "#" },
+  { title: "Works", href: "/works" },
+  { title: "talk", href: "/talk" },
+  { title: "Studio", href: "/studio" },
 ]
 
 export default function Footer() {
@@ -97,7 +97,7 @@ export default function Footer() {
             <p className="text-sm text-white/50 leading-relaxed">
               24/7 Digital Studio <br />
               Remote First · Global Coverage <br />
-              hello@techwebsid.com
+              techwebsid@gmail.com
             </p>
           </div>
         </div>
