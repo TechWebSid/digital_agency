@@ -141,6 +141,7 @@ function StepCard({ step, index }) {
           {step.number}
         </span>
       </div>
+      
     </motion.div>
   )
 }
