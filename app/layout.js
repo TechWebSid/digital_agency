@@ -23,12 +23,12 @@ export const metadata = {
 
   title: {
     default:
-      "TechWebSid – Digital Agency in Lucknow | Website Developer in Uttar Pradesh",
+      "TechWebSid – Digital Agency in Lucknow | Website Developer in India",
     template: "%s | TechWebSid",
   },
 
   description:
-    "TechWebSid is a digital engineering studio based in Uttar Pradesh, India. We build high-performance websites, modern web applications, and software solutions for businesses in Lucknow, Hardoi, Sitapur and across UP.",
+    "TechWebSid is a digital engineering studio based in Lucknow, India. We build high-performance websites, modern web applications, and software solutions for businesses in Lucknow, Hardoi, Sitapur and across UP.",
 
   keywords: [
     "TechWebSid",
@@ -67,7 +67,7 @@ export const metadata = {
     url: "https://techwebsid.in",
     siteName: "TechWebSid",
     title:
-      "TechWebSid – Website Developer in Lucknow | Software Development in UP",
+      "TechWebSid – Website Developer in Lucknow | Software Development in Lucknow",
     description:
       "Professional website development, digital engineering and software solutions in Lucknow, Hardoi, Sitapur and across Uttar Pradesh.",
     images: [
