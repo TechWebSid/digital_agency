@@ -12,8 +12,8 @@ export default function StudioHero() {
     offset: ["start start", "end start"]
   })
 
-  const yText = useTransform(scrollYProgress, [0, 1], [0, 180])
-  const yGhost = useTransform(scrollYProgress, [0, 1], [0, 80])
+  const yText = useTransform(scrollYProgress, [0, 1], [0, 160])
+  const yGhost = useTransform(scrollYProgress, [0, 1], [0, 70])
   const opacityFade = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   const lines = ["A Digital", "Engineering", "Studio"]
@@ -21,21 +21,18 @@ export default function StudioHero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-[100svh] flex items-center px-6 sm:px-10 lg:px-24 overflow-hidden bg-[#07090f]"
+      className="relative min-h-[100dvh] flex items-center px-6 sm:px-10 lg:px-24 overflow-hidden bg-[#07090f]"
     >
       {/* ================= BACKGROUND ================= */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
 
-        {/* Optimized glow (reduced GPU stress) */}
         <motion.div
           style={{ y: yGhost }}
-          className="absolute -top-10 -left-10 w-[60vw] h-[60vw] bg-indigo-600/10 blur-[90px] rounded-full"
+          className="absolute -top-10 -left-10 w-[70vw] h-[70vw] sm:w-[60vw] sm:h-[60vw] bg-indigo-600/10 blur-[100px] rounded-full"
         />
 
-        {/* Noise */}
         <div className="absolute inset-0 opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay" />
 
-        {/* Vignette */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#07090f_90%)]" />
       </div>
 
@@ -44,9 +41,9 @@ export default function StudioHero() {
         style={{ y: yGhost, opacity: opacityFade }}
         className="absolute 
                    left-1/2 -translate-x-1/2 
-                   lg:left-4 lg:translate-x-0 
+                   lg:left-6 lg:translate-x-0 
                    top-1/2 -translate-y-1/2 
-                   text-[28vw] sm:text-[22vw] lg:text-[20vw] 
+                   text-[30vw] sm:text-[22vw] lg:text-[18vw] 
                    font-black tracking-tighter 
                    text-white/[0.015] 
                    pointer-events-none select-none uppercase whitespace-nowrap"
@@ -60,10 +57,12 @@ export default function StudioHero() {
           y: shouldReduceMotion ? 0 : yText,
           opacity: opacityFade
         }}
-        className="relative z-10 w-full max-w-7xl mx-auto text-center lg:text-left"
+        className="relative z-10 w-full max-w-7xl mx-auto 
+                   text-center lg:text-left
+                   pt-24 sm:pt-28 lg:pt-0"
       >
         {lines.map((line, i) => (
-          <div key={i} className="overflow-hidden mb-1">
+          <div key={i} className="mb-3">
             <motion.h1
               initial={{ y: "110%" }}
               animate={{ y: 0 }}
@@ -72,7 +71,11 @@ export default function StudioHero() {
                 delay: i * 0.1,
                 ease: [0.22, 1, 0.36, 1]
               }}
-              className={`text-[clamp(2.8rem,10vw,8.5rem)] font-light leading-[0.9] tracking-tighter
+              className={`text-[clamp(2.4rem,8vw,8rem)] 
+                          sm:text-[clamp(2.8rem,7vw,8rem)] 
+                          font-light 
+                          leading-[1.05] sm:leading-[0.95] 
+                          tracking-tight
                 ${line === "Studio"
                   ? "italic font-serif text-indigo-400"
                   : "text-white"
@@ -85,7 +88,8 @@ export default function StudioHero() {
 
         {/* ================= MOBILE PANEL ================= */}
         <div className="mt-16 sm:mt-20 lg:hidden relative w-full flex justify-center">
-          <div className="relative w-[85%] max-w-[380px] h-[260px] sm:h-[300px]">
+          <div className="relative w-[90%] max-w-[420px] h-[260px] sm:h-[300px]">
+
             <div className="absolute inset-0 bg-indigo-600/20 blur-[50px] rounded-3xl" />
 
             <div className="relative h-full rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl overflow-hidden">
@@ -97,6 +101,7 @@ export default function StudioHero() {
               </div>
 
               <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between h-full">
+
                 <div className="text-[9px] sm:text-[10px] font-mono tracking-[0.4em] text-white/30 uppercase">
                   System Core
                 </div>
@@ -114,12 +119,13 @@ export default function StudioHero() {
                   <span>Latency: 12ms</span>
                   <span className="text-indigo-400 animate-pulse">Online</span>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
 
-        {/* Subtext */}
+        {/* ================= SUBTEXT ================= */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -136,7 +142,7 @@ export default function StudioHero() {
       </motion.div>
 
       {/* ================= DESKTOP WOW PANEL ================= */}
-      <div className="absolute right-10 lg:right-24 top-1/2 -translate-y-1/2 hidden lg:block">
+      <div className="absolute right-6 xl:right-24 top-1/2 -translate-y-1/2 hidden lg:block">
         <div
           onMouseMove={(e) => {
             const rect = e.currentTarget.getBoundingClientRect()
@@ -155,21 +161,24 @@ export default function StudioHero() {
             e.currentTarget.style.transform =
               "perspective(1000px) rotateX(0deg) rotateY(0deg)"
           }}
-          className="relative w-[320px] xl:w-[340px] h-[400px] transition-transform duration-300 ease-out"
+          className="relative w-[300px] xl:w-[340px] h-[380px] xl:h-[420px] transition-transform duration-300 ease-out"
         >
           <div className="absolute inset-0 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden">
+
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:30px_30px]" />
+
             <div className="absolute inset-0 overflow-hidden">
               <div className="absolute w-full h-20 bg-gradient-to-b from-transparent via-indigo-500/20 to-transparent animate-scan" />
             </div>
 
-            <div className="relative z-10 p-10 flex flex-col justify-between h-full">
+            <div className="relative z-10 p-8 xl:p-10 flex flex-col justify-between h-full">
+
               <div className="text-xs font-mono tracking-[0.4em] text-white/30 uppercase">
                 System Core
               </div>
 
               <div>
-                <div className="text-4xl font-light text-indigo-400 tracking-tight">
+                <div className="text-3xl xl:text-4xl font-light text-indigo-400 tracking-tight">
                   TWS
                 </div>
                 <div className="text-sm text-white/40 mt-2">
@@ -181,6 +190,7 @@ export default function StudioHero() {
                 <span>Latency: 12ms</span>
                 <span className="text-indigo-400">Online</span>
               </div>
+
             </div>
           </div>
         </div>
