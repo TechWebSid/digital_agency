@@ -21,12 +21,15 @@ const geistMono = Geist_Mono({
 export const metadata = {
   metadataBase: new URL("https://techwebsid.in"),
 
+  verification: {
+    google: "dKmsNWoTVPT1gSzHD56kpHgO1WgwieCGQq_MEoTJRm4",
+  },
+
   title: {
     default:
       "TechWebSid – Digital Agency in Lucknow | Website Developer in India",
     template: "%s | TechWebSid",
   },
-
   description:
     "TechWebSid is a digital engineering studio based in Lucknow, India. We build high-performance websites, modern web applications, and software solutions for businesses in Lucknow, Hardoi, Sitapur and across UP.",
 
