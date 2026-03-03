@@ -75,7 +75,7 @@ export const metadata = {
       "Professional website development, digital engineering and software solutions in Lucknow, Hardoi, Sitapur and across Uttar Pradesh.",
     images: [
       {
-        url: "/favicon.png",
+        url: "/favicon.ico",
         width: 512,
         height: 512,
         alt: "TechWebSid Digital Agency",
@@ -88,9 +88,9 @@ export const metadata = {
   },
 
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 
   category: "technology",
